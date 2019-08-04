@@ -20,6 +20,9 @@ descobrir por simples processo de tentativa e erro.")
 
         print("\nDigite qualquer tecla para iniciar o game")
         io.read()
+    elseif (string.lower(resposta) == "nao") then
+        print("\nDigite qualquer tecla para iniciar o game")
+        io.read()
     else
         print([[Digite sim ou nao]])
         manual()
@@ -27,44 +30,41 @@ descobrir por simples processo de tentativa e erro.")
         
 end
 
-
-
-    -- repeat
-    --     io.write([[Digite iniciar para começar o jogo: ]])
-    --     respota = io.read()
-    --     if(string.lower(resposta) = "iniciar") then 
-    --         return true
-    --     else
-    --         io.write("Digite ")
-    --     end
-    -- until()
-
-
-
 function cria_numero_aleatorio()
     return 50
 end
 
 function captura_palpite()
-    numero_aletorio = cria_numero_aleatorio()
-    while true do 
-        io.write("\nAdvinhe o numero:")
-        palpite = io.read()
-        if type(tonumber(palpite)) == "number" then
-            palpite = tonumber(palpite)
-            if palpite < numero_aletorio then 
-                print("O numero secreto eh maior que ", palpite)
-            elseif palpite > numero_aletorio then 
-                print("O numero secreto  menor que", palpite)
-            else    
-                print("PARABENS VOCE ACERTOU !!!")
-                break
-            end
-        else  
-            print("Por favor digite um numero")
-        end
+   
+    io.write("\nAdvinhe o numero:")
+    palpite = io.read()
+    if type(tonumber(palpite)) == "number" then
+        palpite = tonumber(palpite)
+        return palpite
+    else  
+        os.execute("cls")
+        print("Por favor digite um numero")
+        captura_palpite()
+    end
+    
+end
+
+function compara_com_palpite(numero_secreto, palpite_do_jogador)
+    if palpite_do_jogador < numero_secreto then 
+        print("O numero secreto eh maior que ", palpite_do_jogador)
+    elseif palpite_do_jogador > numero_secreto then 
+        print("O numero secreto  menor que", palpite_do_jogador)
+    else    
+        print("PARABENS VOCE ACERTOU !!!")
     end
 end
+    
+
+function partida()
+    palpite = captura_palpite()
+    return compara_com_palpite(cria_numero_aleatorio(), captura_palpite())
+end   
+
 
 os.execute("cls")
 saudacao_inicial()
@@ -72,4 +72,4 @@ saudacao_inicial()
 manual()
 
 os.execute("cls")
-captura_palpite()
+compara_com_palpite(cria_numero_aleatorio(), captura_palpite())
