@@ -7,7 +7,6 @@ durante seus estudos sobre a linguagem Lua\
 end
 
 function manual()    
-      
     io.write("\nDeseja ler o manual do jogo? ")
     local resposta = io.read()
 
@@ -35,41 +34,49 @@ function cria_numero_aleatorio()
 end
 
 function captura_palpite()
-   
-    io.write("\nAdvinhe o numero:")
-    palpite = io.read()
-    if type(tonumber(palpite)) == "number" then
-        palpite = tonumber(palpite)
-        return palpite
-    else  
-        os.execute("cls")
-        print("Por favor digite um numero")
-        captura_palpite()
+    while true do 
+        io.write("\nAdvinhe o numero:")
+        palpite = io.read()
+        if type(tonumber(palpite)) == "number" then
+            palpite = tonumber(palpite)
+            return palpite
+        else  
+            os.execute("cls")
+            print("Por favor digite um numero")
+        end
     end
-    
 end
 
 function compara_com_palpite(numero_secreto, palpite_do_jogador)
     if palpite_do_jogador < numero_secreto then 
-        print("O numero secreto eh maior que ", palpite_do_jogador)
+        print("O numero secreto eh maior que", palpite_do_jogador)
+        return false
     elseif palpite_do_jogador > numero_secreto then 
         print("O numero secreto  menor que", palpite_do_jogador)
+        return false
     else    
         print("PARABENS VOCE ACERTOU !!!")
+        return true
     end
 end
-    
 
-function partida()
+function partida(numero_secreto)
     palpite = captura_palpite()
-    return compara_com_palpite(cria_numero_aleatorio(), captura_palpite())
-end   
+    return compara_com_palpite(numero_secreto, palpite)
+end
 
+function loop_jogo()
+    numero_secreto = cria_numero_aleatorio()
+    usuario_acertou = false
+    while not usuario_acertou do 
+        usuario_acertou = partida(numero_secreto)
+    end 
+end
+
+-- os.execute("cls")
+-- saudacao_inicial()
+
+-- manual()
 
 os.execute("cls")
-saudacao_inicial()
-
-manual()
-
-os.execute("cls")
-compara_com_palpite(cria_numero_aleatorio(), captura_palpite())
+loop_jogo()
